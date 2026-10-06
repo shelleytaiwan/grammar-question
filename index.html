@@ -2,6 +2,7 @@
 <html lang="zh">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>疑问句练习 / 疑問句練習</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
@@ -37,7 +38,11 @@
     min-height:100vh;
     padding:36px 18px 70px;
   }
-  .wrap{max-width:720px;margin:0 auto;}
+  .wrap{max-width:720px;margin:0 auto;width:100%;}
+  /* 封面／選單畫面：模塊框和標題在畫面中垂直、水平居中 */
+  body.centered{
+    display:flex; flex-direction:column; justify-content:center;
+  }
   .hidden{display:none !important;}
 
   .seal-icon{
@@ -425,7 +430,21 @@ function showScreen(id){
   ['screen-script','screen-home','screen-mode','screen-exercise','screen-summary'].forEach(s=>{
     document.getElementById(s).classList.toggle('hidden', s!==id);
   });
+  document.body.classList.toggle('centered', id!=='screen-exercise');
+  window.scrollTo(0,0);
 }
+
+/* ---------------- 平板放大：內容寬度約佔螢幕的五分之四 ---------------- */
+const BASE_WIDTH = 720;
+function fitScale(){
+  const wrap = document.querySelector('.wrap');
+  const zoom = Math.max(1, (window.innerWidth*0.8) / BASE_WIDTH);
+  wrap.style.zoom = zoom;
+}
+window.addEventListener('resize', fitScale);
+window.addEventListener('orientationchange', fitScale);
+fitScale();
+document.body.classList.add('centered');
 function chooseScript(script){
   state.script = script;
   pickVoice();
